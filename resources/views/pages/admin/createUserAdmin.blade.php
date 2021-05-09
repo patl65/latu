@@ -2,6 +2,7 @@
 @extends('layout.layoutAdmin')
 @section('content')
 
+<h3>Créer un utilisateur dans Administrateurs :</h3>
 
     <form action="{{ route('admin.user.store') }}" method="POST">
         @csrf

@@ -34,10 +34,10 @@ Route::post('login', [LoginController::class, 'login'])->name('auth.login');
 Route::get('logout', [LoginController::class, 'logout'])->middleware('auth')->name('logout');
 
 Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function () {
-    // Route::view('', 'pages.admin.console')->name('admin');
-    Route::get('', function () {
-        return view('pages.admin.dashboard');
-    })->name('dashboard');
+    Route::view('', 'pages.admin.console')->name('admin');
+    // Route::get('', function () {
+    //     return view('pages.admin.dashboard');
+    // })->name('dashboard');
     Route::get('user', [UserAdminController::class, 'index'])->name('admin.user');
     Route::get('user/{user:id}/delete', [UserAdminController::class, 'destroy'])->name('admin.user.delete');
     Route::get('user/create', [UserAdminController::class, 'create'])->name('admin.user.create');

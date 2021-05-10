@@ -30,7 +30,7 @@
                 @foreach ($posts as $post)
                     <tr>
                         <td>{{ $post->category->name }}</td>
-                        <td><a href="{{ route('post.show', $post->title) }}">{{ $post->title }}</a></td>
+                        <td><a href="{{ route('post.show', $post->slug) }}">{{ $post->title }}</a></td>
                         <td>{{ $post->updated_at->isoFormat('LL') }}</td>
                         <td>{{ $post->user->lastName }} {{ $post->user->firstName }}</td>
                         <td>{{ $post->visible ? 'Oui' : '' }}</td>

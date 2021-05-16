@@ -31,7 +31,7 @@
                 @enderror
             </div>
             <div>
-                <label for="scales" class="col-sm-3 col-form-label">Administrateur</label>
+                <label for="administrator" class="col-sm-3 col-form-label">Administrateur</label>
                 <input type="checkbox" name="administrator" value="true"
                     {{ $user->administrator === 1 ? 'checked' : '' }}>
                 @error('administrator')
@@ -50,8 +50,8 @@
         <form action="{{ route('admin.user.update.email', $user->id) }}" method="POST">
             @csrf
             <div>
-                <label for="firstName" class="col-sm-3 col-form-label">Email</label>
-                <input type="text" id="email" name="email" placeholder="Email" value="{{ $user->email }}"
+                <label for="email" class="col-sm-3 col-form-label">Email</label>
+                <input type="email" id="email" name="email" placeholder="Email" value="{{ $user->email }}"
                     class="col-sm-3">
                 @error('firstName')
                     <span style="color:red">{{ $message }}</span>

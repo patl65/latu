@@ -2,7 +2,9 @@
 
 use App\Models\Post;
 use App\Models\Category;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Artisan;
 use App\Http\Controllers\StaticController;
 use App\Http\Controllers\Admin\JobController;
 use App\Http\Controllers\Admin\PostController;
@@ -10,10 +12,9 @@ use App\Http\Controllers\Admin\LoginController;
 use App\Http\Controllers\Admin\ContactController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\UserAdminController;
+use App\Http\Controllers\Site\JobController as SiteJobController;
 use App\Http\Controllers\Site\PostController as SitePostController;
 use App\Http\Controllers\Site\CategoryController as SiteCategoryController;
-use App\Http\Controllers\Site\JobController as SiteJobController;
-use Illuminate\Support\Facades\Artisan;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,8 +26,6 @@ use Illuminate\Support\Facades\Artisan;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
-
 
 Route::get('login', [LoginController::class, 'index'])->middleware('guest')->name('login');
 //>middleware('guest') : pour détecter si l'user est déjà connecté
@@ -83,8 +82,6 @@ Route::group(['prefix' => 'admin/post', 'middleware' => 'auth'], function () {
     //faire attention aux URL : que celà ne revienne pas au même {post:slug}/delete/{image} = {post:slug}/delete/{video}
 });
 
-
-
 //pour le blog : pour les pages visibles
 Route::group(['prefix' => 'conseil-pro-actualites'], function () {
     Route::get('', [SitePostController::class, 'indexBlog'])->name('blog.index');
@@ -94,11 +91,9 @@ Route::group(['prefix' => 'conseil-pro-actualites'], function () {
     Route::get('{category:slug}', [SiteCategoryController::class, 'showBlogByCategory'])->name('blog.category.show');
 });
 
-
 //pour la page contact avec l'envoit du mail
 Route::get('/contact', [StaticController::class, 'contact'])->name('contact');
 Route::post('/contact/send', [ContactController::class, 'contact'])->name('contact.send');
-
 
 //pour les jobs
 Route::group(['prefix' => 'admin/job', 'middleware' => 'auth'], function () {
@@ -120,7 +115,6 @@ Route::group(['prefix' => 'offres-emploi'], function () {
 
 });
 
-
 //pour la mise en hébergement : la récup de la bdd, son initialisation et initialisation des clées at autres
 if(app()->environment('install')) {
     Route::get('/install', function() {
@@ -139,7 +133,8 @@ if(app()->environment('install')) {
         Artisan::call('migrate:fresh', [
             '--seed' => true
         ]);
-
+        //pour le stockage des photos
+        File::deleteDirectory(storage_path('app/public/tondossier'));
         return response()->json([
             'status' => 'ok'
         ]);
@@ -154,11 +149,6 @@ if(app()->environment('install')) {
         Artisan::call('clear-compiled');
     });
 }
-
-
-
-
-
 
 
 
